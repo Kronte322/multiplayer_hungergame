@@ -1,9 +1,9 @@
 from src.back.server_client.Server import GameServer
-from src.back.server_client.ServerConfig import *
+from src.back.Config import *
+from src.back.server_client.DBclient import *
 
-game_server_port = int(input())
+db_con = DBConnection()
+address_of_the_server = db_con.GetAddressesOfOfflineServers()[0]
 
-address_of_the_lobby_server = (LOBBY_FOR_SERVERS_IP_ADDRESS, LOBBY_FOR_SERVERS_PORT)
-address_of_the_server = (GAME_SERVER_IP_ADDRESS, game_server_port)
-
-server = GameServer(address_of_the_server, address_of_the_lobby_server)
+server = GameServer(address_of_the_server, SIZE_OF_MAP)
+server.StartServer()

@@ -16,3 +16,28 @@ class Messenger:
 
     def SendSetSeedOnPlayerMessage(self, seed_of_generation):
         self.connection.AddMessage(SetSeedOnPlayerMessage(seed_of_generation))
+
+    def SendSetPlayersOnClient(self, players):
+        self.connection.AddMessage(SetPlayersOnClient(players))
+
+
+class PlayerClientMessenger(Messenger):
+    def __init__(self, connection, client):
+        super().__init__(connection)
+        self.client = client
+
+    def SendMovePlayerLeftOnTheServer(self):
+        self.connection.AddMessage(MovePlayerLeftOnTheServer(self.client.GetUser().GetUserId()))
+
+    def SendMovePlayerRightOnTheServer(self):
+        self.connection.AddMessage(MovePlayerRightOnTheServer(self.client.GetUser().GetUserId()))
+
+    def SendMovePlayerUpOnTheServer(self):
+        self.connection.AddMessage(MovePlayerUpOnTheServer(self.client.GetUser().GetUserId()))
+
+    def SendMovePlayerDownOnTheServer(self):
+        self.connection.AddMessage(MovePlayerDownOnTheServer(self.client.GetUser().GetUserId()))
+
+    def SendInitPlayerOnServerMessage(self):
+        self.connection.AddMessage(
+            InitPlayerOnServerMessage(self.client.GetUser().GetUserId(), self.client.GetCharacter()))

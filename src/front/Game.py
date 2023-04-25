@@ -1,35 +1,37 @@
 """File contains initialization of the game"""
-
+import time
 import pygame
-from src.front.Menus import MenuUI
-from src.back.Config import *
 from src.back.Window import Window
-from src.back.server_client import Client
-from src.back.server_client.ServerConfig import *
-import sys
+from src.back.server_client.Processes import *
+from src.front.Render import Render
+from src.back.server_client.Client import PlayerClient
+from src.back.Map import Map
+from src.back.Controller import Controller
+from src.back.EventDistributor import *
 
 
 class Game:
     """this class for start the game"""
 
-    def __init__(self):
-        """initialization of the object"""
-        self.window = Window()
-        self.user = Client.UserClient((LOBBY_FOR_USERS_IP_ADDRESS, LOBBY_FOR_USERS_PORT))
-        self.game_server_address = None
+    @staticmethod
+    def StartTheGame():
+        window = Window()
+        OnStartProcess(window.GetDisplay())
 
-    def StartTheGame(self):
-        MenuUI.ProcessingStartMenu(self.window.GetDisplay(), self)
-
-    def StartGameSession(self):
-
-        sys.setrecursionlimit(DEEP_OF_RECURSION)
-
-    def GetGameServerAddress(self):
-        return self.game_server_address
-
-    def SetGameServerAddress(self, address):
-        self.game_server_address = address
-
-    def GetUser(self):
-        return self.user
+    @staticmethod
+    def StartGameSession(display, user, character, server_address):
+        client = PlayerClient(server_address, user, character)
+        while True:
+            time.sleep(1 / TICK_RATE)
+            if client.GetSeedOfGeneration() is not None:
+                mappa = Map(client.GetSeedOfGeneration())
+                mappa.SetCurrentRooms()
+                break
+        render = Render(display, mappa, client)
+        controller = Controller(client.GetConnection().GetMessenger())
+        keyboard_distributor = PlayerKeyboardEventDistributor(controller)
+        clock = pygame.time.Clock()
+        while src.back.Config.RUNNING:
+            clock.tick(FRAMES_PER_SEC)
+            keyboard_distributor.ProcessEvents()
+            render.Draw()

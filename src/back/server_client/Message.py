@@ -38,3 +38,52 @@ class SetSeedOnPlayerMessage(Message):
 
     def Implement(self, connection):
         connection.GetPlayerClient().SetSeedOfGeneration(self.seed_of_generation)
+
+
+class MovePlayerLeftOnTheServer(Message):
+    def __init__(self, player_id):
+        self.player_id = player_id
+
+    def Implement(self, connection):
+        connection.GetGameServer().GetActionHandler().MovePlayerLeft(self.player_id)
+
+
+class MovePlayerRightOnTheServer(Message):
+    def __init__(self, player_id):
+        self.player_id = player_id
+
+    def Implement(self, connection):
+        connection.GetGameServer().GetActionHandler().MovePlayerRight(self.player_id)
+
+
+class MovePlayerUpOnTheServer(Message):
+    def __init__(self, player_id):
+        self.player_id = player_id
+
+    def Implement(self, connection):
+        connection.GetGameServer().GetActionHandler().MovePlayerUp(self.player_id)
+
+
+class MovePlayerDownOnTheServer(Message):
+    def __init__(self, player_id):
+        self.player_id = player_id
+
+    def Implement(self, connection):
+        connection.GetGameServer().GetActionHandler().MovePlayerDown(self.player_id)
+
+
+class SetPlayersOnClient(Message):
+    def __init__(self, players):
+        self.players = players
+
+    def Implement(self, connection):
+        connection.GetPlayerClient().SetPlayers(self.players)
+
+
+class InitPlayerOnServerMessage(Message):
+    def __init__(self, user_id, character):
+        self.character = character
+        self.user_id = user_id
+
+    def Implement(self, connection):
+        connection.GetGameServer().AddNewPlayer(self.user_id, self.character)

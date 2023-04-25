@@ -1,25 +1,17 @@
 """File contains map generator"""
 
 import random
-from src.back.Config import *
 import src.back.Config
-import time
-from collections import deque
 from src.back.Algorithms import *
-
-random.seed(time.time())
-
-
-# random.seed(12)
 
 
 class MapGenerator:
     """this class make able to generate maze and make able to operate with it"""
 
     @staticmethod
-    def GenerateMaze(size, algorithm: AlgoForGenerator):
+    def GenerateMaze(size, algorithm: AlgoForGenerator, seed):
         """generate maze as matrix with following size"""
-
+        random.seed(seed)
         maze = []
         MapGenerator.CreateMatrix(maze, size)
         MapGenerator.SetBoardsOfMap(maze)
@@ -38,7 +30,7 @@ class MapGenerator:
     def GetTile(position: tuple, matrix):
         """return what tile on following position in matrix"""
 
-        return matrix[position[0]][position[1]]
+        return matrix[int(position[0])][int(position[1])]
 
     @staticmethod
     def GetNeighbours(position: tuple, matrix):

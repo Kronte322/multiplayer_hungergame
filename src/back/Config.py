@@ -1,5 +1,8 @@
 """File contains constants"""
 
+import pygame
+from src.back.Character import *
+
 # globals
 MAPPA = None
 PLAYER = None
@@ -8,19 +11,24 @@ PLAYER = None
 CHAR_FOR_PATH = 'P'
 CHAR_FOR_EMPTY = 'E'
 CHAR_FOR_BOARD = 'B'
-CHAR_FOR_FLOOR = '-'
+CHAR_FOR_FLOOR = 'P'
 CHAR_FOR_CURRENT_POS = 'C'
 CHAR_FOR_EXIT = 'X'
 CHAR_FOR_ANSWER = 'A'
 
+# num of pngs
+NUM_OF_PNGS_FOR_FLOOR = 14
+
+CHARS_FOR_FLOORS = [CHAR_FOR_FLOOR + ' ' + str(index) for index in range(1, NUM_OF_PNGS_FOR_FLOOR + 1)]
+
 # sizes of rectangles
-SIZE_OF_DISPLAY = [1920, 1000]
-SIZE_OF_MOVE_BOX = [600, 300]
+SIZE_OF_DISPLAY = [1920 / 2, 1000 / 2]
 SIZE_OF_UNSCOPED_MINIMAP = [450, 450]
-SIZE_OF_SCOPED_MINIMAP = [600, 600]
+SIZE_OF_SCOPED_MINIMAP = [SIZE_OF_DISPLAY[0] / 2, SIZE_OF_DISPLAY[1] / 2]
 SIZE_OF_MINIMAP = SIZE_OF_UNSCOPED_MINIMAP
 SIZE_OF_MAP = [16, 16]
-SIZE_OF_MENUS = [600, 600]
+SIZE_OF_MENUS = [SIZE_OF_DISPLAY[0] / 2, SIZE_OF_DISPLAY[1] / 2]
+SIZE_OF_MAIN_MENU = SIZE_OF_DISPLAY
 
 # sizes of tiles
 SIZE_OF_CHARACTER = 48
@@ -50,10 +58,13 @@ COLOR_FOR_ANSWER_TILES = (255, 255, 0)
 LENGTH_OF_PATHS = 4
 FRAMES_PER_SEC = 60
 DEEP_OF_RECURSION = 10000000
-NUM_OF_PNGS_FOR_FLOOR = 14
+
 MAX_SIZE_OF_NAME_OF_FILE = 20
 SEED_FOR_TEST = 12
 DEFAULT_LENGTH_FOR_DFS = 1000000
+
+# names of chars
+KNIGHT_NAME = 'Knight'
 
 # preferences for menus
 SET_WITH_DIFFICULTIES = [('I’m Too Young to Die', 1), ('Hurt Me Plenty', 2), ('Ultra Violence', 3), ('Nightmare', 4),
@@ -61,8 +72,7 @@ SET_WITH_DIFFICULTIES = [('I’m Too Young to Die', 1), ('Hurt Me Plenty', 2), (
 SET_WITH_ALGOS = [('DFS', 'DFS'), ('Prima', 'Prima')]
 SET_WITH_SIZES = [('Tiny [16, 16]', [16, 16]), ('Classic [32, 32]', [32, 32]), ('Large [64, 64]', [64, 64]),
                   ('Huge [128, 128]', [128, 128])]
-SET_WITH_CHARACTERS = [('Necromancer', 'necromancer'), ('Knight', 'knight'), ('Priest', 'priest'),
-                       ('Skeleton', 'skeleton'), ('Spirit', 'spirit')]
+SET_WITH_CHARACTERS = [(KNIGHT_NAME, Knight)]
 LENGTHS_PATHS_ACCORDING_TO_DIFFICULTY = [0, 7, 4, 4, 1, 1]
 
 # strings for states
@@ -112,3 +122,22 @@ LOAD_STRING = 'Load'
 CHOOSE_FILE_STRING = 'Choose file:'
 PICK_SERVER_STRING = 'Pick a server'
 CONNECT_BUTTON_STRING = 'Connect'
+
+LOG_IN_STRING = 'Log in'
+REGISTRATION_STRING = 'Register an account'
+
+USER_NM_INPUT = 'User name/email address: '
+NICK_NAME_INPUT = 'Nickname: '
+PASSWORD_INPUT = 'Password: '
+
+WRONG_LOG_IN = 'Wrong user name or password'
+WRONG_REGISTER = 'This user name is used'
+WRONG_SERVER_SELECTION = 'You did not choose a server!'
+
+# main menu
+POSITION_OF_PROFILE_BUTTON = (0, 0)
+
+# characteristics of characters
+KNIGHT_MOVEMENT_SPEED = 7
+KNIGHT_HEALTH = 50
+KNIGHT_SIZE = 48

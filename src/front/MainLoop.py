@@ -6,7 +6,7 @@ import src.back.Config
 from src.back.UI import Ui
 from src.back.Config import *
 from src.back import Map
-from src.back import Player
+from src.back import Character
 from src.back.EventDistributor import EventDistributor
 
 
@@ -24,7 +24,7 @@ def ProcessingLoop(screen):
 
     if src.back.Config.MAPPA is None:
         mappa = Map.Map()
-        player = Player.Player()
+        player = Player.Character()
         mappa.SpawnPosition()
         src.back.Config.MAPPA = mappa
         src.back.Config.PLAYER = player

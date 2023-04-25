@@ -9,8 +9,11 @@ con = psycopg2.connect(
 )
 
 cursor_obj = con.cursor()
-print(con.get_dsn_parameters())
-cursor_obj.execute("SELECT * FROM pg_stat_activity")
+cursor_obj.execute("SELECT * FROM st.user")
+result = cursor_obj.fetchall()
+print(result)
+
+cursor_obj.execute("SELECT * FROM st.player")
 result = cursor_obj.fetchall()
 print(result)
 

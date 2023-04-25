@@ -2,6 +2,8 @@ import socket
 from src.back.server_client.Connections import *
 import _thread
 from abc import ABC, abstractmethod
+from src.back.server_client.DBclient import *
+from src.back.server_client.Messenger import Messenger
 
 
 class Client(ABC):
@@ -28,98 +30,42 @@ class Client(ABC):
         return self.is_disconnected
 
 
-class UserLobbyAsClient(Client):
-    def __init__(self, address, user_lobby):
-        super().__init__(address)
-        self.user_lobby = user_lobby
-        _thread.start_new_thread(self.Connect, ())
-
-    def Connect(self):
-        try:
-            self.soc.connect((self.address_of_server[0], self.address_of_server[1]))
-        except socket.error as e:
-            print(e)
-            pass
-        connection = UserLobbyAsClientConnection(self.soc, self.user_lobby)
-        connection.ProcessThread()
-
-    def GetUserLobby(self):
-        return self.user_lobby
-
-
-class UserClient(Client):
-    def __init__(self, address):
-        super().__init__(address)
-        self.active_servers = []
-        _thread.start_new_thread(self.Connect, ())
-
-    def Connect(self):
-        try:
-            self.soc.connect((self.address_of_server[0], self.address_of_server[1]))
-        except socket.error as e:
-            print(e)
-            pass
-        connection = UserClientConnection(self.soc, self)
-        connection.ProcessThread()
-
-    def GetActiveServers(self):
-        return self.active_servers
-
-    def SetActiveServers(self, active_servers):
-        self.active_servers = active_servers
-
-
-def PingServer(address, time_out=2):
-    soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    soc.settimeout(time_out)
-    try:
-        soc.connect((address[0], address[1]))
-    except:
-        return False
-    soc.close()
-    return True
-
-
-class GameServerAsClient(Client):
-    def __init__(self, address, game_server):
-        super().__init__(address)
-        self.game_server = game_server
-        _thread.start_new_thread(self.Connect, ())
-
-    def Connect(self):
-        try:
-            self.soc.connect((self.address_of_server[0], self.address_of_server[1]))
-        except socket.error as e:
-            print(e)
-            pass
-        connection = GameServerAsClientConnection(self.soc, self)
-        connection.ProcessThread()
-
-    def GetGameServer(self):
-        return self.game_server
-
-
 class PlayerClient(Client):
-    def __init__(self, address, player):
+    def __init__(self, address, user, character):
         super().__init__(address)
-        self.player = player
+        self.user = user
+        self.character = character
+        self.players = None
         self.seed_of_generation = None
+        self.connection = None
         _thread.start_new_thread(self.Connect, ())
 
     def Connect(self):
-        try:
-            self.soc.connect((self.address_of_server[0], self.address_of_server[1]))
-        except socket.error as e:
-            print(e)
-            pass
-        connection = GameServerAsClientConnection(self.soc, self)
-        connection.ProcessThread()
+        # try:
+        self.soc.connect((self.address_of_server[0], self.address_of_server[1]))
+        # except socket.error as e:
+        #     print(e)
+        #     pass
+        self.connection = PlayerConnection(self.soc, self)
+        self.connection.ProcessThread()
 
-    def GetPlayer(self):
-        return self.player
+    def GetConnection(self):
+        return self.connection
+
+    def GetUser(self):
+        return self.user
+
+    def SetPlayers(self, players):
+        self.players = players
+
+    def GetPlayers(self):
+        return self.players
 
     def GetSeedOfGeneration(self):
         return self.seed_of_generation
 
     def SetSeedOfGeneration(self, seed_of_generation):
         self.seed_of_generation = seed_of_generation
+
+    def GetCharacter(self):
+        return self.character
