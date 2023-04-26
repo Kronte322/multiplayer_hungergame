@@ -21,13 +21,12 @@ class LogInProcess:
                 raise 'Wrong input'
             if self.menu.IsThereIncorrectInputInscription():
                 self.menu.RemoveAnIncorrectInputInscription()
+            self.MoveToLobbyProcess()
         except Exception as e:
             print(e)
             if self.menu.IsThereIncorrectInputInscription():
                 self.menu.RemoveAnIncorrectInputInscription()
             self.menu.AddAnIncorrectInputInscription()
-        self.MoveToLobbyProcess()
-
 
     def SetUserName(self, user_nm):
         self.user_nm = user_nm
@@ -79,12 +78,12 @@ class RegisterProcess:
             self.db_con.AddNewPlayer(self.db_con.GetUserId(self.user_nm, self.user_password), self.user_nick_name)
             if self.menu.IsThereIncorrectInputInscription():
                 self.menu.RemoveAnIncorrectInputInscription()
+            self.MoveToOnStartProcess()
         except Exception as e:
             print(e)
             if self.menu.IsThereIncorrectInputInscription():
                 self.menu.RemoveAnIncorrectInputInscription()
             self.menu.AddAnIncorrectInputInscription()
-        self.MoveToOnStartProcess()
 
     def SetUserName(self, user_nm):
         self.user_nm = user_nm

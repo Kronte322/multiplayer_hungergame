@@ -29,4 +29,4 @@ DB_USER_PASSWORD = 'antisocialplayer'
 
 SLEEP_TIME = 0.5
 
-TICK_RATE = 500
+TICK_RATE = 1000

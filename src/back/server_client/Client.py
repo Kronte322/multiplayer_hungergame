@@ -36,6 +36,7 @@ class PlayerClient(Client):
         self.user = user
         self.character = character
         self.players = None
+        self.game_objects = None
         self.seed_of_generation = None
         self.connection = None
         _thread.start_new_thread(self.Connect, ())
@@ -60,6 +61,12 @@ class PlayerClient(Client):
 
     def GetPlayers(self):
         return self.players
+
+    def SetGameObjects(self, game_objects):
+        self.game_objects = game_objects
+
+    def GetGameObjects(self):
+        return self.game_objects
 
     def GetSeedOfGeneration(self):
         return self.seed_of_generation

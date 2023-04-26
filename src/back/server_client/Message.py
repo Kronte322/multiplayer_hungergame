@@ -87,3 +87,28 @@ class InitPlayerOnServerMessage(Message):
 
     def Implement(self, connection):
         connection.GetGameServer().AddNewPlayer(self.user_id, self.character)
+
+
+class LeaveMessage(Message):
+    def __init__(self, user_id):
+        self.user_id = user_id
+
+    def Implement(self, connection):
+        connection.GetGameServer().RemovePlayer(self.user_id)
+
+
+class AddAttackMessage(Message):
+    def __init__(self, user_id, side):
+        self.user_id = user_id
+        self.side = side
+
+    def Implement(self, connection):
+        connection.GetGameServer().GetActionHandler().AddNewAttack(self.user_id, self.side)
+
+
+class SetGameObjectsOnClientMessage(Message):
+    def __init__(self, game_objects):
+        self.game_objects = game_objects
+
+    def Implement(self, connection):
+        connection.GetPlayerClient().SetGameObjects(self.game_objects)

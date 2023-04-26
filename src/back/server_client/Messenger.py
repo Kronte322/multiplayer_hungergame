@@ -20,6 +20,9 @@ class Messenger:
     def SendSetPlayersOnClient(self, players):
         self.connection.AddMessage(SetPlayersOnClient(players))
 
+    def SendSetGameObjectsOnClientMessage(self, game_objects):
+        self.connection.AddMessage(SetGameObjectsOnClientMessage(game_objects))
+
 
 class PlayerClientMessenger(Messenger):
     def __init__(self, connection, client):
@@ -41,3 +44,9 @@ class PlayerClientMessenger(Messenger):
     def SendInitPlayerOnServerMessage(self):
         self.connection.AddMessage(
             InitPlayerOnServerMessage(self.client.GetUser().GetUserId(), self.client.GetCharacter()))
+
+    def SendLeaveMessage(self):
+        self.connection.AddMessage(LeaveMessage(self.client.GetUser().GetUserId()))
+
+    def SendAddAttackMessage(self, side):
+        self.connection.AddMessage(AddAttackMessage(self.client.GetUser().GetUserId(), side))

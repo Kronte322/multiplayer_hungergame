@@ -6,15 +6,80 @@ from abc import ABC
 class Character(ABC):
     """class for an entity that is controlled by the player"""
 
-    def __init__(self, name, speed, size, health):
+    def __init__(self, name, speed, size, health, attack_speed, damage):
         """initialize player"""
 
         self.name = name
         self.speed = speed
         self.size = size
         self.health = health
+        self.max_health = health
         self.position = [0, 0]
         self.side = src.back.Config.RIGHT
+        self.can_attack = True
+        self.can_move = True
+        self.attack_speed = attack_speed
+        self.damage = damage
+        self.radius_of_hit_box = size // 2
+        self.is_dead = False
+        self.cooldown_for_attack = 0
+
+    def Dead(self):
+        self.is_dead = True
+        self.can_move = False
+        self.can_attack = False
+
+    def IsDead(self):
+        return self.is_dead
+
+    def SetCooldownForAttack(self, value):
+        self.cooldown_for_attack = value
+
+    def DecreaseCooldownForAttack(self):
+        if self.cooldown_for_attack > 0:
+            self.cooldown_for_attack -= 1
+
+    def GetDamage(self):
+        return self.damage
+
+    def SetDamage(self, damage):
+        self.damage = damage
+
+    def GetRadiusOfHitBox(self):
+        return self.radius_of_hit_box
+
+    def DecreaseHealth(self, value):
+        self.health -= value
+        if self.health <= 0:
+            self.Dead()
+
+    def GetMaxHealth(self):
+        return self.max_health
+
+    def SetMaxHealth(self, health):
+        self.max_health = health
+
+    def GetAttackSpeed(self):
+        return self.attack_speed
+
+    def CanAttack(self):
+        return self.can_attack and self.cooldown_for_attack == 0
+
+    def MuteAttack(self):
+        self.can_attack = False
+
+    def UnMuteAttack(self):
+        self.can_attack = True
+        test = 10
+
+    def UnMuteMove(self):
+        self.can_move = True
+
+    def CanMove(self):
+        return self.can_move
+
+    def MuteMove(self):
+        self.can_move = False
 
     def GetName(self):
         return self.name
@@ -38,6 +103,12 @@ class Character(ABC):
 
     def GetSide(self):
         return self.side
+
+    def SetSide(self, side):
+        self.side = side
+
+    def GetPositionOfCenter(self):
+        return self.position[0] + self.size / 2, self.position[1] + self.size / 2
 
     def GetStandHitBox(self):
         return self.position[0] + self.size / 2, self.position[1] + self.size
@@ -86,4 +157,5 @@ class Character(ABC):
 class Knight(Character):
     def __init__(self):
         super().__init__(src.back.Config.KNIGHT_NAME, src.back.Config.KNIGHT_MOVEMENT_SPEED,
-                         src.back.Config.KNIGHT_SIZE, src.back.Config.KNIGHT_HEALTH)
+                         src.back.Config.KNIGHT_SIZE, src.back.Config.KNIGHT_HEALTH,
+                         src.back.Config.KNIGHT_ATTACK_SPEED, src.back.Config.KNIGHT_DAMAGE)

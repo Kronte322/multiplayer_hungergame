@@ -53,6 +53,7 @@ class GameServerConnection(Connection):
         self.connection.close()
 
     def Send(self):
+        self.messenger.SendSetGameObjectsOnClientMessage(self.game_server.GetGameObjects())
         self.messenger.SendSetPlayersOnClient(self.game_server.GetPlayers())
         self.connection.sendall(pickle.dumps(self.messages_to_send))
         self.messages_to_send.clear()
@@ -90,7 +91,7 @@ class PlayerConnection(Connection):
         self.messages_to_send.clear()
 
     def Receive(self):
-        messages = pickle.loads(self.connection.recv(2048))
+        messages = pickle.loads(self.connection.recv(4096))
         for message in messages:
             message.Implement(self)
         pass

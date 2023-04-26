@@ -48,7 +48,10 @@ class LogInMenu(Menu):
         self.label = self.menu.add.label(WRONG_LOG_IN)
 
     def RemoveAnIncorrectInputInscription(self):
-        self.menu.remove_widget(self.label)
+        try:
+            self.menu.remove_widget(self.label)
+        except:
+            pass
 
     def IsThereIncorrectInputInscription(self):
         return self.label is not None

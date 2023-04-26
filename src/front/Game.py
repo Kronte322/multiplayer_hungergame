@@ -2,6 +2,7 @@
 import time
 import pygame
 from src.back.Window import Window
+from src.back.UI import Ui
 from src.back.server_client.Processes import *
 from src.front.Render import Render
 from src.back.server_client.Client import PlayerClient
@@ -28,10 +29,20 @@ class Game:
                 mappa.SetCurrentRooms()
                 break
         render = Render(display, mappa, client)
-        controller = Controller(client.GetConnection().GetMessenger())
+        controller = Controller(client.GetConnection().GetMessenger(), user, display)
         keyboard_distributor = PlayerKeyboardEventDistributor(controller)
+        mouse_distributor = MouseEventDistributor(controller)
+        ui = Ui()
+        window_distributor = WindowEventDistributor(controller, ui)
         clock = pygame.time.Clock()
+
         while src.back.Config.RUNNING:
-            clock.tick(FRAMES_PER_SEC)
+            time_delta = clock.tick(FRAMES_PER_SEC)
+            is_dead = client.GetPlayers()[client.GetUser().GetUserId()].IsDead()
+            window_distributor.ProcessEvents(is_dead)
             keyboard_distributor.ProcessEvents()
+            mouse_distributor.ProcessEvents()
             render.Draw()
+            if is_dead:
+                ui.Blit(time_delta, display)
+            pygame.display.flip()
