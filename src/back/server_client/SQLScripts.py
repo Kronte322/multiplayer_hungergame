@@ -8,6 +8,10 @@ def SET_SERVER_ONLINE(server_id):
     return 'UPDATE st.server SET state =\'online\' WHERE server_id = ' + str(server_id) + ';'
 
 
+def GET_OFFLINE_SERVER_WITH_IP(ip_address):
+    return 'SELECT ip_address, port FROM st.server WHERE ip_address = \'' + ip_address + '\' AND state = \'offline\';'
+
+
 def SET_SERVER_OFFLINE(server_id):
     return 'UPDATE st.server SET state =\'offline\' WHERE server_id = ' + str(server_id) + ';'
 

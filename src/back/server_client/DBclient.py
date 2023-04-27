@@ -50,6 +50,10 @@ class DBConnection:
         self.cursor.execute(SET_GAME_TO_ONLINE_SERVER(ip_address, port, game_id))
         self.connection.commit()
 
+    def GetOfflineServersWithIp(self, ip_address):
+        self.cursor.execute(GET_OFFLINE_SERVER_WITH_IP(ip_address))
+        return self.cursor.fetchall()
+
     def GetAddressesOfOfflineServers(self):
         self.cursor.execute(GET_ADDRESSES_OF_OFFLINE_SERVERS)
         return self.cursor.fetchall()
