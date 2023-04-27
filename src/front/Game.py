@@ -1,6 +1,5 @@
 """File contains initialization of the game"""
 import time
-import pygame
 from src.back.Window import Window
 from src.back.UI import Ui
 from src.back.server_client.Processes import *
@@ -12,15 +11,19 @@ from src.back.EventDistributor import *
 
 
 class Game:
-    """this class for start the game"""
+    """this class represents application stages"""
 
     @staticmethod
     def StartTheGame():
+        """this method starts the game"""
+
         window = Window()
         OnStartProcess(window.GetDisplay())
 
     @staticmethod
     def StartGameSession(display, user, character, server_address):
+        """this method starts game session"""
+
         client = PlayerClient(server_address, user, character)
         while True:
             time.sleep(1 / TICK_RATE)

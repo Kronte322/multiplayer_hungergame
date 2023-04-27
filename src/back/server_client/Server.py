@@ -106,5 +106,5 @@ class GameServer(Server):
 
     def QuitInput(self):
         exit_string = input()
-        if exit_string == 'quit':
+        if exit_string == QUIT_SERVER_STRING:
             self.QuitServer()

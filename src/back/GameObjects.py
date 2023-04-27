@@ -40,14 +40,16 @@ class Death(Object):
         return self.num_of_sprite >= NUM_OF_SPRITES_FOR_DEATH_ANIMATION - 1
 
     def GetPositionOfCenter(self):
-        return self.position[0] + KNIGHT_SIZE // 2, self.position[1] + KNIGHT_SIZE // 2
+        return self.position[0] + DEFAULT_SIZE_OF_CHARACTER // 2, self.position[1] + DEFAULT_SIZE_OF_CHARACTER // 2
 
     def GetPosition(self):
         return self.position
 
 
-positions_of_DefaultSwordAttack_according_to_side = {LEFT: (-KNIGHT_SIZE // 2, 0), RIGHT: (KNIGHT_SIZE // 2, 0),
-                                                     UP: (0, -KNIGHT_SIZE // 2), DOWN: (0, KNIGHT_SIZE // 2)}
+positions_of_DefaultSwordAttack_according_to_side = {LEFT: (-DEFAULT_SIZE_OF_ATTACK // 2, 0),
+                                                     RIGHT: (DEFAULT_SIZE_OF_ATTACK // 2, 0),
+                                                     UP: (0, -DEFAULT_SIZE_OF_ATTACK // 2),
+                                                     DOWN: (0, DEFAULT_SIZE_OF_ATTACK // 2)}
 
 
 class AttackObject(Object, ABC):
@@ -113,14 +115,14 @@ class DefaultSwordAttack(AttackObject):
 
     def GetHitPoints(self):
         if self.num_of_sprite == 3 and self.num_of_passed_frames == 1:
-            return [(self.position[0] + KNIGHT_SIZE // 2, self.position[1] + KNIGHT_SIZE // 2)]
+            return [(self.position[0] + DEFAULT_SIZE_OF_ATTACK // 2, self.position[1] + DEFAULT_SIZE_OF_ATTACK // 2)]
         return []
 
     def GetRadiusOfHit(self):
         return self.hit_radius
 
     def GetPositionOfCenter(self):
-        return self.position[0] + KNIGHT_SIZE // 2, self.position[1] + KNIGHT_SIZE // 2
+        return self.position[0] + DEFAULT_SIZE_OF_ATTACK // 2, self.position[1] + DEFAULT_SIZE_OF_ATTACK // 2
 
     def GetId(self):
         return self.id

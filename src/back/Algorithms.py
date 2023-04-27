@@ -162,7 +162,6 @@ class PrimaAlgo(AlgoForGenerator):
         self.opened[vertex] = vertex
 
         while len(self.opened) != 0:
-            current = [0, 0]
             if len(self.opened) == 1:
                 current = list(self.opened.items())[0][0]
             else:

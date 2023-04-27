@@ -5,24 +5,32 @@ from abc import ABC
 
 
 class Menu(ABC):
-    """class that contains all menus UI"""
+    """abstract class for menus"""
 
     def __init__(self, display):
         self.display = display
         self.menu = None
 
     def ProcessMenu(self):
+        """this method process menu"""
+
         self.menu.mainloop(self.display)
 
     def Close(self):
+        """this method close the menu"""
+
         self.menu.close()
 
     @staticmethod
     def ReturnOnlyValue(key, value):
+        """this method returns only value for callback"""
+
         return value
 
 
 class StartMenu(Menu):
+    """class for start menu"""
+
     def __init__(self, display, start_process):
         super().__init__(display)
         self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
@@ -33,6 +41,8 @@ class StartMenu(Menu):
 
 
 class LogInMenu(Menu):
+    """class for log in menu"""
+
     def __init__(self, display, log_in_process):
         super().__init__(display)
         self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
@@ -45,19 +55,27 @@ class LogInMenu(Menu):
         self.label = None
 
     def AddAnIncorrectInputInscription(self):
+        """this method adds message with incorrect input"""
+
         self.label = self.menu.add.label(WRONG_LOG_IN)
 
     def RemoveAnIncorrectInputInscription(self):
+        """this method removes message with incorrect input"""
+
         try:
             self.menu.remove_widget(self.label)
         except:
             pass
 
     def IsThereIncorrectInputInscription(self):
+        """this method checks if there message with incorrect input"""
+
         return self.label is not None
 
 
 class RegisterUserMenu(Menu):
+    """class for register menu"""
+
     def __init__(self, display, register_process):
         super().__init__(display)
         self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
@@ -81,6 +99,8 @@ class RegisterUserMenu(Menu):
 
 
 class LobbyMenu(Menu):
+    """class for lobby menu"""
+
     def __init__(self, display, lobby_process):
         super().__init__(display)
         self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
@@ -92,6 +112,8 @@ class LobbyMenu(Menu):
 
 
 class ServerSelectionMenu(Menu):
+    """class for server selection menu"""
+
     def __init__(self, display, server_selection_process):
         super().__init__(display)
         self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],

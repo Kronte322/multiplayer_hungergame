@@ -49,7 +49,7 @@ class GameServerConnection(Connection):
             except socket.error as error:
                 print(str(error))
                 break
-        print("Connection Lost.")
+        print(CONNECTION_LOST_MESSAGE)
         self.connection.close()
 
     def Send(self):
@@ -59,7 +59,7 @@ class GameServerConnection(Connection):
         self.messages_to_send.clear()
 
     def Receive(self):
-        messages = pickle.loads(self.connection.recv(2048))
+        messages = pickle.loads(self.connection.recv(NUM_OF_BYTES_TO_RECEIVE))
         for message in messages:
             message.Implement(self)
         pass
@@ -83,7 +83,7 @@ class PlayerConnection(Connection):
             except socket.error as error:
                 print(str(error))
                 break
-        print("Connection Lost.")
+        print(CONNECTION_LOST_MESSAGE)
         self.connection.close()
 
     def Send(self):
@@ -91,7 +91,7 @@ class PlayerConnection(Connection):
         self.messages_to_send.clear()
 
     def Receive(self):
-        messages = pickle.loads(self.connection.recv(4096))
+        messages = pickle.loads(self.connection.recv(NUM_OF_BYTES_TO_RECEIVE))
         for message in messages:
             message.Implement(self)
         pass

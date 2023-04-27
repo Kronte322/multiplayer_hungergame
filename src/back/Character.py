@@ -1,4 +1,5 @@
 """File contains player class"""
+
 import src.back.Config
 from abc import ABC
 

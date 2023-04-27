@@ -14,6 +14,9 @@ NUM_OF_ALIVE_SERVERS = 10
 START_LOBBY_FOR_SERVERS_MESSAGE = "Lobby for servers starting..."
 START_GAME_SERVER_MESSAGE = "Game server starting... to quit game server type quit in the terminal and press ctrl + c"
 CONNECTED_MESSAGE = "Connected to: "
+CONNECTION_LOST_MESSAGE = "Connection lost."
+CONNECTION_TO_DB_FAILED_MESSAGE = 'Connection to DB failed'
+QUIT_SERVER_STRING = 'quit'
 
 NEIGHBOUR_IP_ADDRESS = '192.168.0.101'
 ALIVE_MESSAGE = 'Alive'
@@ -24,9 +27,8 @@ DB_PORT = 5432
 DB_USER = 'postgres'
 DB_USER_PASSWORD = 'antisocialplayer'
 
-
-
-
 SLEEP_TIME = 0.5
 
 TICK_RATE = 1000
+
+NUM_OF_BYTES_TO_RECEIVE = 4096

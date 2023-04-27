@@ -1,9 +1,6 @@
 """File contains map class"""
 
 import pygame
-import random
-import time
-import sys
 from src.back.MapGenerator import *
 from src.back.Config import *
 import src.back.Config

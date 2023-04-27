@@ -14,7 +14,7 @@ class DBConnection:
                 port=DB_PORT
             )
         except Exception:
-            raise 'Connection to DB failed'
+            raise CONNECTION_TO_DB_FAILED_MESSAGE
         self.cursor = self.connection.cursor()
 
     def Close(self):

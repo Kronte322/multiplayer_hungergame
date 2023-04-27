@@ -4,9 +4,8 @@ import pygame
 import src.front.Menus
 import src.back.Config
 from src.back.Config import *
-from abc import ABC, abstractmethod
+from abc import ABC
 from src.back.server_client.Processes import ServerSelectionProcess
-import math
 
 
 class EventDistributor(ABC):
@@ -72,7 +71,6 @@ class MouseEventDistributor(EventDistributor):
 
     @staticmethod
     def GetSideOfAttack():
-        side = src.back.Config.RIGHT
         position = pygame.mouse.get_pos()
         player_position = (src.back.Config.SPAWN_POSITION[0] + src.back.Config.KNIGHT_SIZE // 2,
                            src.back.Config.SPAWN_POSITION[1] + src.back.Config.KNIGHT_SIZE // 2)

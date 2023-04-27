@@ -1,14 +1,20 @@
+"""File contains render"""
+
 import pygame
 from src.back.Config import *
 
 
 def GetImage(path, size=SIZE_OF_TILE):
+    """method returns resized image according to given path"""
+
     result = pygame.image.load(path)
     result = pygame.transform.scale(result, (size, size))
     return result
 
 
 def GetReversedSurfaceWithImage(image, size=SIZE_OF_TILE, flag='x'):
+    """method returns reversed version of image"""
+
     surface = GetSurfaceWithImage(image, size)
     if flag == 'x':
         return pygame.transform.flip(surface, flip_x=True, flip_y=False)
@@ -17,6 +23,8 @@ def GetReversedSurfaceWithImage(image, size=SIZE_OF_TILE, flag='x'):
 
 
 def GetSurfaceWithImage(image, size=SIZE_OF_TILE):
+    """method returns surface with image"""
+
     surface = pygame.Surface((size, size), flags=pygame.SRCALPHA)
     surface.fill((0, 0, 0, 0))
     surface.blit(image, (0, 0))
@@ -31,7 +39,8 @@ dict_with_game_objects = {}
 
 
 def SetSpritesForDeathAnimation():
-    test = dict_with_game_objects
+    """this method set sprites for death animation"""
+
     for index in range(NUM_OF_SPRITES_FOR_DEATH_ANIMATION):
         dict_with_game_objects[SPRITE_ID_FOR_DEATH + str(index)] = GetSurfaceWithImage(
             GetImage(PATH_FOR_DEATH_ANIMATION + str(index).zfill(2) + FILE_WITH_IMAGES_EXTENSION, KNIGHT_SIZE),
@@ -39,7 +48,8 @@ def SetSpritesForDeathAnimation():
 
 
 def SetSpritesForGameObjects():
-    test = dict_with_game_objects
+    """this method set sprites for game objects"""
+
     for index in range(NUM_OF_SPRITES_FOR_ATTACK):
         dict_with_game_objects[SPRITE_ID_FOR_ATTACK + RIGHT + str(index)] = GetSurfaceWithImage(
             GetImage(PATH_TO_SIDE_ATTACK + str(index) + FILE_WITH_IMAGES_EXTENSION, KNIGHT_SIZE), KNIGHT_SIZE)
@@ -56,6 +66,8 @@ def SetSpritesForGameObjects():
 
 
 def SetDictWithFloors():
+    """this method set sprites for floor"""
+
     for index in range(1, NUM_OF_PNGS_FOR_FLOOR + 1):
         surface = pygame.Surface((SIZE_OF_TILE, SIZE_OF_TILE), flags=pygame.SRCALPHA)
         surface.fill((0, 0, 0, 0))
@@ -64,6 +76,8 @@ def SetDictWithFloors():
 
 
 def SetDictWithChars():
+    """this method set sprites with characters"""
+
     surface = pygame.Surface((KNIGHT_SIZE, KNIGHT_SIZE), flags=pygame.SRCALPHA)
     surface.fill((0, 0, 0, 0))
     surface.blit(GetImage(PATH_TO_CHARACTER_PNG + 'Knight' + FILE_WITH_IMAGES_EXTENSION, KNIGHT_SIZE), (0, 0))
@@ -71,19 +85,23 @@ def SetDictWithChars():
 
 
 def GetFloorImage(floor_char):
-    test = dict_with_floors
+    """this method returns surface according to given id"""
+
     return dict_with_floors[int(floor_char.split()[1])]
 
 
 def SetImages():
+    """this method sets images"""
+
     SetDictWithFloors()
     SetDictWithChars()
     SetSpritesForGameObjects()
     SetSpritesForDeathAnimation()
-    test = 0
 
 
 def GetCharacterImageAccordingToSide(character_name, side):
+    """this method return char image according to side"""
+
     character_image = dict_with_chars[character_name]
     if side == LEFT:
         return pygame.transform.flip(character_image, flip_x=True, flip_y=False)
@@ -91,6 +109,8 @@ def GetCharacterImageAccordingToSide(character_name, side):
 
 
 class Render:
+    """this class represents work with user display"""
+
     SetImages()
 
     def __init__(self, display, mappa, client):
@@ -104,6 +124,8 @@ class Render:
         self.client = client
 
     def Update(self):
+        """this method update game objects"""
+
         self.players = self.client.GetPlayers()
         self.player = self.players[self.client.GetUser().GetUserId()]
         self.current_floors = self.mappa.GetCurrentRoomOfPlayer(self.player.GetStandHitBox())
@@ -112,6 +134,8 @@ class Render:
         self.game_objects = self.client.GetGameObjects()
 
     def Draw(self):
+        """this method draw all stuff on the screen"""
+
         self.Update()
         self.display.fill(COLOR_FOR_BACKGROUND)
         self.DrawFloors()
@@ -120,23 +144,21 @@ class Render:
         self.DrawHealthBar()
 
     def DrawPlayers(self):
+        """this method draws players"""
+
         self.DrawOtherPlayers()
         if not self.player.IsDead():
             self.DrawPlayer()
 
-    def DrawCharacterAccordingToSide(self, player, position):
-        character_image = dict_with_chars[self.player.GetName()]
-        flipped_image = pygame.transform.flip(character_image, flip_x=True, flip_y=False)
-        if player.GetSide() == LEFT:
-            self.display.blit(flipped_image, (position[0], position[1]))
-        else:
-            self.display.blit(character_image, position)
-
     def DrawPlayer(self):
+        """this method draws users player"""
+
         self.display.blit(GetCharacterImageAccordingToSide(self.player.GetName(), self.player.GetSide()),
                           self.position_of_player_on_screen)
 
     def DrawOtherPlayers(self):
+        """this method draws other players"""
+
         for character in self.players.values():
 
             if character is not self.player and not character.IsDead() and self.mappa.IsPositionInListOfTiles(
@@ -148,6 +170,8 @@ class Render:
                                   position_to_blit)
 
     def DrawFloors(self):
+        """this method draws floor"""
+
         for tile in self.current_floors:
             position_to_blit = (self.mappa.GetPositionOfTileInPixels(tile[0])[0] - self.player.GetPosition()[0] +
                                 self.position_of_player_on_screen[0],
@@ -156,6 +180,8 @@ class Render:
             self.display.blit(GetFloorImage(tile[1]), position_to_blit)
 
     def DrawGameObjects(self):
+        """this method draws game objects"""
+
         if self.game_objects is not None:
             for game_object in self.game_objects.values():
                 if self.mappa.IsPositionInListOfTiles(game_object.GetPositionOfCenter(), self.current_floors):
@@ -166,6 +192,8 @@ class Render:
                                        self.position_of_player_on_screen[1]))
 
     def DrawHealthBar(self):
+        """this method draw health bar"""
+
         health = self.player.GetHealth()
         pygame.draw.rect(self.display, COLOR_FOR_EMPTY_HEALTH_BAR, (
             POSITION_OF_HEALTH_BAR[0], POSITION_OF_HEALTH_BAR[1], self.player.GetMaxHealth() * PIXELS_PER_HEALTH_POINT,

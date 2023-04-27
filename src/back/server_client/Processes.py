@@ -1,7 +1,7 @@
 from src.back.server_client.User import *
 import src.front.Game as Game
 import src.front.Menus as Menus
-from src.back.Character import *
+from src.back.Config import *
 
 
 class LogInProcess:
@@ -18,7 +18,7 @@ class LogInProcess:
         try:
             self.user_id = self.db_con.GetUserId(self.user_nm, self.user_password)
             if self.user_id is None:
-                raise 'Wrong input'
+                raise WRONG_LOG_IN
             if self.menu.IsThereIncorrectInputInscription():
                 self.menu.RemoveAnIncorrectInputInscription()
             self.MoveToLobbyProcess()

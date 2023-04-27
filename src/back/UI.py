@@ -1,5 +1,6 @@
 """File contains in-game UI class"""
 
+import pygame
 import pygame_gui
 from src.back.Config import *
 
