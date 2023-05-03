@@ -16,4 +16,10 @@
 * Possibilities: you can create an account, log in, connect to the server, have some fun
  
 ### Some screen-shots from game:
-
+* You can create menu
+![start_menu](https://github.com/Kronte322/mulitplayer_hungergame/blob/dev/screenshots/start_menu.png)
+* You can log in
+![register_menu](https://github.com/Kronte322/mulitplayer_hungergame/blob/dev/screenshots/register_menu.png)
+* You can select the server
+![log_in_menu](https://github.com/Kronte322/mulitplayer_hungergame/blob/dev/screenshots/sign_in_menu.png)
+![server_selection_menu](https://github.com/Kronte322/mulitplayer_hungergame/blob/dev/screenshots/server_selection_menu.png)
