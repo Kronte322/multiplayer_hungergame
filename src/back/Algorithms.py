@@ -190,6 +190,7 @@ class BFSAlgo:
         self.deque = deque()
         self.closed = {}
         self.parents = {}
+        self.dist = {}
         self.path = []
 
     def BFSForFindShortestPath(self, vertex, matrix):
@@ -216,7 +217,31 @@ class BFSAlgo:
             current = self.parents[current]
         self.path.append([current, CHAR_FOR_ANSWER])
 
+    def BFSOnTheSpecificTiles(self, vertex, matrix, list_with_visited, list_with_tiles, depth):
+        self.deque.appendleft(vertex)
+        current = vertex
+        self.parents[current] = current
+        self.dist[current] = 0
+        while len(self.deque) != 0:
+            current = self.deque.pop()
+            self.closed[current] = True
+            if self.dist[current] > depth:
+                break
+            list_with_visited.append((current, src.back.MapGenerator.MapGenerator.GetTile(current, matrix)))
+            for neighbour in src.back.MapGenerator.MapGenerator.GetNeighbours(current, matrix):
+                if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) in list_with_tiles:
+                    if neighbour not in self.closed:
+                        self.dist[neighbour] = self.dist[current] + 1
+                        self.deque.appendleft(neighbour)
+
     def GetPath(self):
         """this method returns path that bfs algorithm has traveled"""
 
         return self.path
+
+    def Clear(self):
+        self.deque.clear()
+        self.closed.clear()
+        self.parents.clear()
+        self.path.clear()
+        self.dist.clear()

@@ -1,4 +1,5 @@
 """File contains class that process all events"""
+import time
 
 import pygame
 import src.front.Menus
@@ -14,6 +15,7 @@ class EventDistributor(ABC):
 
     def LeaveFromGameSession(self):
         self.controller.Leave()
+        time.sleep(0.1)
         ServerSelectionProcess(self.controller.GetDisplay(), self.controller.GetUser())
 
 

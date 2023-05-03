@@ -3,10 +3,6 @@ import copy
 import math
 
 
-def GetDistance(first_point, second_point):
-    return math.sqrt((second_point[0] - first_point[0]) ** 2 + (second_point[1] - first_point[1]) ** 2)
-
-
 class ActionHandler:
     def __init__(self, game_server, mappa):
         self.game_server = game_server
@@ -57,8 +53,8 @@ class ActionHandler:
             for player_id in copied:
                 player = copied[player_id]
                 if not player.IsDead():
-                    if player_id != attack_object.GetUserId() and GetDistance(player.GetPositionOfCenter(),
-                                                                              point) < attack_object.GetRadiusOfHit() + player.GetRadiusOfHitBox():
+                    if player_id != attack_object.GetUserId() and math.dist(player.GetPositionOfCenter(),
+                                                                            point) < attack_object.GetRadiusOfHit() + player.GetRadiusOfHitBox():
                         player.DecreaseHealth(attack_object.GetDamage())
                         if player.IsDead():
                             death = Death(player.GetPosition())

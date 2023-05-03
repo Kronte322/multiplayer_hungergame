@@ -126,9 +126,9 @@ class ServerSelectionMenu(Menu):
             server_selection_process.SetCharacter(value)
 
         selector = self.menu.add.selector(title=PICK_SERVER_STRING,
-                                          items=[(str(address), address) for address in
-                                                 server_selection_process.GetActiveServers() + [('0', 0)]],
-                                          onchange=SetServerAddress)
+                                          items=[(str(server[3]) + ' / ' + str(server[2]), (server[0], server[1])) for
+                                                 server in server_selection_process.GetActiveServers()] + [
+                                                    ('', (0, 0))], onchange=SetServerAddress)
         SetServerAddress(selector.get_items()[0][0], selector.get_items()[0][1])
         self.menu.add.selector(title=CHARACTER_SELECTION_STRING, items=SET_WITH_CHARACTERS, onchange=SetCharacter)
         self.menu.add.button(CONNECT_BUTTON_STRING, server_selection_process.LaunchGameSession)

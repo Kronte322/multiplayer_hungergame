@@ -40,7 +40,7 @@ class PlayerClient(Client):
             self.soc.connect((self.address_of_server[0], self.address_of_server[1]))
         except socket.error as e:
             print(e)
-            return
+            raise e
 
         self.connection = PlayerConnection(self.soc, self)
         self.connection.ProcessThread()

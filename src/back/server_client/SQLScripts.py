@@ -1,4 +1,4 @@
-GET_ACTIVE_SERVERS_SQL_SCRIPT = 'SELECT ip_address, port FROM st.server WHERE state = \'online\''
+GET_ACTIVE_SERVERS_SQL_SCRIPT = 'SELECT ip_address, port, max_players_cnt, players_cnt FROM st.server WHERE state = \'online\''
 GET_ALL_SERVERS_SQL_SCRIPT = 'SELECT * FROM st.server'
 GET_ADDRESSES_OF_OFFLINE_SERVERS = 'SELECT ip_address, port FROM st.server WHERE state = \'offline\''
 GET_ALL_RANKS_SQL_SCRIPT = 'SELECT * FROM st.rank'
@@ -17,8 +17,8 @@ def SET_SERVER_OFFLINE(server_id):
 
 
 def SET_ACTiVE_PLAYERS_ON_SERVER(ip_address, port, num_of_players):
-    return 'UPDATE st.server SET players_cnt =' + str(num_of_players) + ' WHERE ip_address = ' + str(
-        ip_address) + ', port = ' + str(port)
+    return 'UPDATE st.server SET players_cnt =' + str(num_of_players) + ' WHERE ip_address = \'' + str(
+        ip_address) + '\'AND port = ' + str(port)
 
 
 def GET_SERVER_ID(ip_address, port):

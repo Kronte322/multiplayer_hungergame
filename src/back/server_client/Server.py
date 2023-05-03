@@ -66,6 +66,7 @@ class GameServer(Server):
     def RemovePlayer(self, user_id):
         self.num_of_connected_players -= 1
         self.connected_players.pop(user_id)
+        self.db_client.SetActivePlayersOnServer(self.address[0], self.address[1], self.num_of_connected_players)
 
     def GetSeedOfGeneration(self):
         return self.seed_of_generation
@@ -90,7 +91,7 @@ class GameServer(Server):
             connection = GameServerConnection(conn, self)
             _thread.start_new_thread(connection.ProcessThread, ())
             self.num_of_connected_players += 1
-            # self.db_client.SetActivePlayersOnServer(self.address[0], self.address[1], self.num_of_connected_players)
+            self.db_client.SetActivePlayersOnServer(self.address[0], self.address[1], self.num_of_connected_players)
             print(CONNECTED_MESSAGE, addr)
 
     def ProcessGameObjects(self):
@@ -101,6 +102,7 @@ class GameServer(Server):
     def QuitServer(self):
         self.soc.close()
         self.db_client.SetServerOffline(self.db_client.GetServerId(self.address[0], self.address[1]))
+        self.db_client.SetActivePlayersOnServer(self.address[0], self.address[1], 0)
         self.db_client.Close()
         sys.exit(0)
 

@@ -24,7 +24,12 @@ class Game:
     def StartGameSession(display, user, character, server_address):
         """this method starts game session"""
 
-        client = PlayerClient(server_address, user, character)
+        client = None
+        try:
+            client = PlayerClient(server_address, user, character)
+        except:
+            ServerSelectionProcess(display, user)
+
         while True:
             time.sleep(1 / TICK_RATE)
             if client.GetSeedOfGeneration() is not None:

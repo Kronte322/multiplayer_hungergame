@@ -142,6 +142,7 @@ class ServerSelectionProcess:
         self.menu.ProcessMenu()
 
     def GetActiveServers(self):
+        test = self.db_con.GetActiveServers()
         return self.db_con.GetActiveServers()
 
     def SetServerAddress(self, address):

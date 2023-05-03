@@ -16,7 +16,7 @@ class Map:
         self.size_of_tile = size_of_tile_of_map
         self.matrix_with_map = MapGenerator.GenerateMaze(size_of_map, Algo.DFSAlgo(), seed)
         self.SetFloors()
-        self.dfs = DFSAlgo()
+        self.bfs = BFSAlgo()
         self.current_rooms = {}
 
     def SetFloors(self):
@@ -59,7 +59,8 @@ class Map:
             for y_coord in range(self.size_of_map[1]):
                 current_room = []
                 if self.GetTile((x_coord, y_coord)) in CHARS_FOR_FLOORS + [CHAR_FOR_FLOOR]:
-                    self.dfs.DFSOnTheSpecificTiles((x_coord, y_coord), self.matrix_with_map,
+                    self.bfs.Clear()
+                    self.bfs.BFSOnTheSpecificTiles((x_coord, y_coord), self.matrix_with_map,
                                                    current_room, [CHAR_FOR_PATH, CHAR_FOR_EXIT] + CHARS_FOR_FLOORS,
                                                    depth=src.back.Config.LENGTH_OF_PATHS)
                     self.current_rooms[(x_coord, y_coord)] = current_room
@@ -71,7 +72,8 @@ class Map:
         if self.GetTile(player_position, position_in_pixels=True) in [CHAR_FOR_PATH] + CHARS_FOR_FLOORS:
             if self.GetPositionOfTile(player_position) in self.current_rooms:
                 return self.current_rooms[self.GetPositionOfTile(player_position)]
-            self.dfs.DFSOnTheSpecificTiles(self.GetPositionOfTile(player_position), self.matrix_with_map,
+            self.bfs.Clear()
+            self.bfs.BFSOnTheSpecificTiles(self.GetPositionOfTile(player_position), self.matrix_with_map,
                                            current_room, [CHAR_FOR_PATH, CHAR_FOR_EXIT] + CHARS_FOR_FLOORS,
                                            depth=src.back.Config.LENGTH_OF_PATHS)
             self.current_rooms[self.GetPositionOfTile(player_position)] = current_room

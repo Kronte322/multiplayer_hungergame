@@ -16,7 +16,15 @@ class MapGenerator:
         MapGenerator.CreateMatrix(maze, size)
         MapGenerator.SetBoardsOfMap(maze)
         MapGenerator.SetPathsOnMap(maze, algorithm)
+        MapGenerator.SetRandomFloorsOnMap(maze)
         return maze
+
+    @staticmethod
+    def SetRandomFloorsOnMap(matrix):
+        for i in range(NUM_OF_RANDOM_TILES):
+            x_coord = random.randint(1, len(matrix) - 2)
+            y_coord = random.randint(1, len(matrix[0]) - 2)
+            matrix[x_coord][y_coord] = CHAR_FOR_PATH
 
     @staticmethod
     def GetClearMap(size):
