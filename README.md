@@ -14,7 +14,7 @@
      python3 main.py
   
 * Possibilities: you can create an account, log in, connect to the server, have some fun
- 
+Controlls: w, a, s, d movement, left-click on mouse attack
 ### Some screen-shots from game:
 * You can create menu
 ![start_menu](https://github.com/Kronte322/mulitplayer_hungergame/blob/dev/screenshots/start_menu.png)
