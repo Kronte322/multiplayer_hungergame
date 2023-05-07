@@ -40,7 +40,7 @@ class Character(ABC):
 
     def Regenerate(self):
         self.regeneration_cooldown = max(0, self.regeneration_cooldown - 1)
-        if self.regeneration_cooldown == 0:
+        if self.regeneration_cooldown == 0 and not self.IsDead():
             self.regeneration_ticks += 1
             if self.regeneration_ticks == self.regeneration_speed:
                 self.regeneration_ticks = 0
