@@ -7,23 +7,44 @@ from abc import ABC
 class Character(ABC):
     """class for an entity that is controlled by the player"""
 
-    def __init__(self, name, speed, size, health, attack_speed, damage):
+    def __init__(self, name, speed, size, health, attack_speed, damage, health_regeneration, regeneration_cooldown,
+                 regeneration_speed):
         """initialize player"""
 
         self.name = name
         self.speed = speed
         self.size = size
         self.health = health
+        self.health_regeneration = health_regeneration
         self.max_health = health
         self.position = [0, 0]
         self.side = src.back.Config.RIGHT
         self.can_attack = True
         self.can_move = True
+        self.regeneration_cooldown = 0
+        self.value_of_regeneration_cooldown = regeneration_cooldown
+        self.regeneration_speed = regeneration_speed
+        self.regeneration_ticks = 0
         self.attack_speed = attack_speed
         self.damage = damage
         self.radius_of_hit_box = size // 2
         self.is_dead = False
         self.cooldown_for_attack = 0
+
+    def RegenerateHealth(self):
+        self.health = min(self.max_health, self.health + self.health_regeneration)
+
+    def Update(self):
+        self.Regenerate()
+        self.DecreaseCooldownForAttack()
+
+    def Regenerate(self):
+        self.regeneration_cooldown = max(0, self.regeneration_cooldown - 1)
+        if self.regeneration_cooldown == 0:
+            self.regeneration_ticks += 1
+            if self.regeneration_ticks == self.regeneration_speed:
+                self.regeneration_ticks = 0
+                self.RegenerateHealth()
 
     def Dead(self):
         self.is_dead = True
@@ -50,6 +71,7 @@ class Character(ABC):
         return self.radius_of_hit_box
 
     def DecreaseHealth(self, value):
+        self.regeneration_cooldown = self.value_of_regeneration_cooldown
         self.health -= value
         if self.health <= 0:
             self.Dead()
@@ -159,4 +181,6 @@ class Knight(Character):
     def __init__(self):
         super().__init__(src.back.Config.KNIGHT_NAME, src.back.Config.KNIGHT_MOVEMENT_SPEED,
                          src.back.Config.KNIGHT_SIZE, src.back.Config.KNIGHT_HEALTH,
-                         src.back.Config.KNIGHT_ATTACK_SPEED, src.back.Config.KNIGHT_DAMAGE)
+                         src.back.Config.KNIGHT_ATTACK_SPEED, src.back.Config.KNIGHT_DAMAGE,
+                         src.back.Config.KNIGHT_REGENERATION, src.back.Config.KNIGHT_REGENERATION_COOLDOWN,
+                         src.back.Config.KNIGHT_REGENERATION_SPEED)

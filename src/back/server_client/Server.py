@@ -1,8 +1,8 @@
 import _thread
 import uuid
 from src.back.server_client.Connections import *
-from src.back.server_client.DBclient import *
-from src.back.ActionHandler import ActionHandler
+from src.back.DBconnection.DBclient import *
+from src.back.server_client.ActionHandler import ActionHandler
 from src.back.Map import Map
 import sys
 import time

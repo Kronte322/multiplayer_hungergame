@@ -1,13 +1,12 @@
 """File contains initialization of the game"""
-import time
-from src.back.Window import Window
-from src.back.UI import Ui
-from src.back.server_client.Processes import *
+from src.front.Window import Window
+from src.front.UI import Ui
+from src.back.Processes import *
 from src.front.Render import Render
 from src.back.server_client.Client import PlayerClient
 from src.back.Map import Map
 from src.back.Controller import Controller
-from src.back.EventDistributor import *
+from src.front.EventDistributor import *
 
 
 class Game:

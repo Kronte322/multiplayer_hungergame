@@ -1,4 +1,4 @@
-from src.back.server_client.DBclient import *
+from src.back.DBconnection.DBclient import *
 
 
 class User:

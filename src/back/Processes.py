@@ -1,5 +1,5 @@
 from src.back.server_client.User import *
-import src.front.Game as Game
+import src.back.Game as Game
 import src.front.Menus as Menus
 from src.back.Config import *
 

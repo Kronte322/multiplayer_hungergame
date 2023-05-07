@@ -6,7 +6,7 @@ import src.front.Menus
 import src.back.Config
 from src.back.Config import *
 from abc import ABC
-from src.back.server_client.Processes import ServerSelectionProcess
+from src.back.Processes import ServerSelectionProcess
 
 
 class EventDistributor(ABC):

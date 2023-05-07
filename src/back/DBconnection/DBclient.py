@@ -1,6 +1,7 @@
 import psycopg2
-from src.back.server_client.SQLScripts import *
+from src.back.DBconnection.SQLScripts import *
 from src.back.server_client.ServerConfig import *
+from src.back.DBconnection.DBConfig import *
 
 
 class DBConnection:

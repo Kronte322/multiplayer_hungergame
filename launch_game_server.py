@@ -3,7 +3,7 @@
 import socket
 from src.back.server_client.Server import GameServer
 from src.back.Config import *
-from src.back.server_client.DBclient import *
+from src.back.DBconnection.DBclient import *
 
 
 def GetIpAddress():

@@ -63,7 +63,7 @@ class ActionHandler:
     def ProcessGameObjects(self):
         copied = copy.copy(self.game_server.GetGameObjects())
         for player_id in self.game_server.GetPlayers():
-            self.game_server.GetPlayers()[player_id].DecreaseCooldownForAttack()
+            self.game_server.GetPlayers()[player_id].Update()
         for game_object in copied.values():
             game_object.Update()
             if game_object.ShouldBeDeleted():
@@ -74,3 +74,5 @@ class ActionHandler:
             for object_type in self.dict_with_processing:
                 if isinstance(game_object, object_type):
                     self.dict_with_processing[object_type](game_object)
+
+
