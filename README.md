@@ -10,6 +10,7 @@
      pip install pygame_gui
      pip install pygame_menu
      pip install pickle
+     pip install psycorg2
   ## third run main.py:
      python3 main.py
   
