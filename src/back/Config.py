@@ -1,7 +1,7 @@
 """File contains constants"""
 
-from src.back.Character import *
-from src.back.server_client.ServerConfig import *
+import src.back.Character as Character
+import src.back.server_client.ServerConfig as ServerConfig
 
 # globals
 MAPPA = None
@@ -21,13 +21,13 @@ NUM_OF_PNGS_FOR_FLOOR = 14
 NUM_OF_SPRITES_FOR_ATTACK = 5
 NUM_OF_SPRITES_FOR_DEATH_ANIMATION = 14
 
-FREAQ_OF_DEATH_ANIMATION = 60
-COOLDOWN_FOR_ATTACK = TICK_RATE // 6
+FREAQ_OF_DEATH_ANIMATION = ServerConfig.TICK_RATE // 12
+COOLDOWN_FOR_ATTACK = ServerConfig.TICK_RATE // 6
 
 CHARS_FOR_FLOORS = [CHAR_FOR_FLOOR + ' ' + str(index) for index in range(1, NUM_OF_PNGS_FOR_FLOOR + 1)]
 
 # sizes of rectangles
-SIZE_OF_DISPLAY = [1240, 720]
+SIZE_OF_DISPLAY = (1240, 720)
 SIZE_OF_UNSCOPED_MINIMAP = [450, 450]
 SIZE_OF_SCOPED_MINIMAP = [SIZE_OF_DISPLAY[0] / 2, SIZE_OF_DISPLAY[1] / 2]
 SIZE_OF_MINIMAP = SIZE_OF_UNSCOPED_MINIMAP
@@ -82,7 +82,7 @@ SET_WITH_DIFFICULTIES = [('I’m Too Young to Die', 1), ('Hurt Me Plenty', 2), (
 SET_WITH_ALGOS = [('DFS', 'DFS'), ('Prima', 'Prima')]
 SET_WITH_SIZES = [('Tiny [16, 16]', [16, 16]), ('Classic [32, 32]', [32, 32]), ('Large [64, 64]', [64, 64]),
                   ('Huge [128, 128]', [128, 128])]
-SET_WITH_CHARACTERS = [(KNIGHT_NAME, Knight)]
+SET_WITH_CHARACTERS = [(KNIGHT_NAME, Character.Knight)]
 LENGTHS_PATHS_ACCORDING_TO_DIFFICULTY = [0, 7, 4, 4, 1, 1]
 
 # strings for states
@@ -160,11 +160,11 @@ POSITION_OF_PROFILE_BUTTON = (0, 0)
 KNIGHT_MOVEMENT_SPEED = 7
 KNIGHT_HEALTH = 50
 KNIGHT_SIZE = 48
-KNIGHT_ATTACK_SPEED = TICK_RATE // 25
+KNIGHT_ATTACK_SPEED = ServerConfig.TICK_RATE // 25
 KNIGHT_DAMAGE = 8
 KNIGHT_REGENERATION = 6
-KNIGHT_REGENERATION_COOLDOWN = TICK_RATE // TICK_RATE
-KNIGHT_REGENERATION_SPEED = TICK_RATE // 6
+KNIGHT_REGENERATION_COOLDOWN = ServerConfig.TICK_RATE
+KNIGHT_REGENERATION_SPEED = ServerConfig.TICK_RATE // 6
 
 
 DEFAULT_SIZE_OF_CHARACTER = 48

@@ -1,4 +1,4 @@
-from src.back.server_client.Message import *
+import src.back.server_client.Message as Message
 
 
 class Messenger:
@@ -6,22 +6,22 @@ class Messenger:
         self.connection = connection
 
     def SendSetActiveServersOnUserLobbyMessage(self, list_with_active_servers):
-        self.connection.AddMessage(SetActiveServersOnUserLobbyMessage(list_with_active_servers))
+        self.connection.AddMessage(Message.SetActiveServersOnUserLobbyMessage(list_with_active_servers))
 
     def SendSetActiveServersOnUserClientMessage(self, list_with_active_servers):
-        self.connection.AddMessage(SetActiveServersOnUserClientMessage(list_with_active_servers))
+        self.connection.AddMessage(Message.SetActiveServersOnUserClientMessage(list_with_active_servers))
 
     def SendAddActiveServerOnServerLobbyMessage(self, address):
-        self.connection.AddMessage(AddActiveServerOnServerLobbyMessage(address))
+        self.connection.AddMessage(Message.AddActiveServerOnServerLobbyMessage(address))
 
     def SendSetSeedOnPlayerMessage(self, seed_of_generation):
-        self.connection.AddMessage(SetSeedOnPlayerMessage(seed_of_generation))
+        self.connection.AddMessage(Message.SetSeedOnPlayerMessage(seed_of_generation))
 
     def SendSetPlayersOnClient(self, players):
-        self.connection.AddMessage(SetPlayersOnClient(players))
+        self.connection.AddMessage(Message.SetPlayersOnClient(players))
 
     def SendSetGameObjectsOnClientMessage(self, game_objects):
-        self.connection.AddMessage(SetGameObjectsOnClientMessage(game_objects))
+        self.connection.AddMessage(Message.SetGameObjectsOnClientMessage(game_objects))
 
 
 class PlayerClientMessenger(Messenger):
@@ -30,23 +30,23 @@ class PlayerClientMessenger(Messenger):
         self.client = client
 
     def SendMovePlayerLeftOnTheServer(self):
-        self.connection.AddMessage(MovePlayerLeftOnTheServer(self.client.GetUser().GetUserId()))
+        self.connection.AddMessage(Message.MovePlayerLeftOnTheServer(self.client.GetUser().GetUserId()))
 
     def SendMovePlayerRightOnTheServer(self):
-        self.connection.AddMessage(MovePlayerRightOnTheServer(self.client.GetUser().GetUserId()))
+        self.connection.AddMessage(Message.MovePlayerRightOnTheServer(self.client.GetUser().GetUserId()))
 
     def SendMovePlayerUpOnTheServer(self):
-        self.connection.AddMessage(MovePlayerUpOnTheServer(self.client.GetUser().GetUserId()))
+        self.connection.AddMessage(Message.MovePlayerUpOnTheServer(self.client.GetUser().GetUserId()))
 
     def SendMovePlayerDownOnTheServer(self):
-        self.connection.AddMessage(MovePlayerDownOnTheServer(self.client.GetUser().GetUserId()))
+        self.connection.AddMessage(Message.MovePlayerDownOnTheServer(self.client.GetUser().GetUserId()))
 
     def SendInitPlayerOnServerMessage(self):
         self.connection.AddMessage(
-            InitPlayerOnServerMessage(self.client.GetUser().GetUserId(), self.client.GetCharacter()))
+            Message.InitPlayerOnServerMessage(self.client.GetUser().GetUserId(), self.client.GetCharacter()))
 
     def SendLeaveMessage(self):
-        self.connection.AddMessage(LeaveMessage(self.client.GetUser().GetUserId()))
+        self.connection.AddMessage(Message.LeaveMessage(self.client.GetUser().GetUserId()))
 
     def SendAddAttackMessage(self, side):
-        self.connection.AddMessage(AddAttackMessage(self.client.GetUser().GetUserId(), side))
+        self.connection.AddMessage(Message.AddAttackMessage(self.client.GetUser().GetUserId(), side))

@@ -1,9 +1,10 @@
-import socket
-from abc import ABC, abstractmethod
 import pickle
-from src.back.server_client.Messenger import Messenger, PlayerClientMessenger
-from src.back.server_client.ServerConfig import *
+import socket
 import time
+from abc import ABC, abstractmethod
+
+import src.back.server_client.ServerConfig as ServerConfig
+from src.back.server_client.Messenger import Messenger, PlayerClientMessenger
 
 
 class Connection(ABC):
@@ -43,13 +44,13 @@ class GameServerConnection(Connection):
     def ProcessThread(self):
         while True:
             try:
-                time.sleep(1 / TICK_RATE)
+                time.sleep(1 / ServerConfig.TICK_RATE)
                 self.Send()
                 self.Receive()
             except socket.error as error:
                 print(str(error))
                 break
-        print(CONNECTION_LOST_MESSAGE)
+        print(ServerConfig.CONNECTION_LOST_MESSAGE)
         self.connection.close()
 
     def Send(self):
@@ -59,7 +60,7 @@ class GameServerConnection(Connection):
         self.messages_to_send.clear()
 
     def Receive(self):
-        messages = pickle.loads(self.connection.recv(NUM_OF_BYTES_TO_RECEIVE))
+        messages = pickle.loads(self.connection.recv(ServerConfig.NUM_OF_BYTES_TO_RECEIVE))
         for message in messages:
             message.Implement(self)
         pass
@@ -83,7 +84,7 @@ class PlayerConnection(Connection):
             except socket.error as error:
                 print(str(error))
                 break
-        print(CONNECTION_LOST_MESSAGE)
+        print(ServerConfig.CONNECTION_LOST_MESSAGE)
         self.connection.close()
 
     def Send(self):
@@ -91,7 +92,7 @@ class PlayerConnection(Connection):
         self.messages_to_send.clear()
 
     def Receive(self):
-        messages = pickle.loads(self.connection.recv(NUM_OF_BYTES_TO_RECEIVE))
+        messages = pickle.loads(self.connection.recv(ServerConfig.NUM_OF_BYTES_TO_RECEIVE))
         for message in messages:
             message.Implement(self)
         pass

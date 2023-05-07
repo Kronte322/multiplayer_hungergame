@@ -1,11 +1,12 @@
 """File contains algorithms for generation"""
 
-from abc import ABC, abstractmethod
-import src.back.MapGenerator
-from src.back.Config import *
 import random
 import time
+from abc import ABC, abstractmethod
 from collections import deque
+
+import src.back.Config as Config
+import src.back.MapGenerator
 
 random.seed(time.time())
 
@@ -50,7 +51,8 @@ class DFSAlgo(AlgoForGenerator):
                 continue
             if neighbour == self.parents.get(vertex):
                 continue
-            if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) not in [CHAR_FOR_EMPTY, CHAR_FOR_BOARD]:
+            if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) not in [Config.CHAR_FOR_EMPTY,
+                                                                                     Config.CHAR_FOR_BOARD]:
                 sign = True
                 continue
             if self.used.get(neighbour):
@@ -81,7 +83,7 @@ class DFSAlgo(AlgoForGenerator):
             if self.used.get(row) is None and row != self.parents.get(
                     vertex) and src.back.MapGenerator.MapGenerator.GetTile(row,
                                                                            matrix) not in [
-                CHAR_FOR_BOARD]:
+                Config.CHAR_FOR_BOARD]:
                 self.parents[row] = vertex
                 self.DFSForPaths(row, matrix)
 
@@ -100,7 +102,7 @@ class DFSAlgo(AlgoForGenerator):
                     self.RecursiveCall(neighbour, matrix, set_of_tiles, tiles, current_depth=current_depth + 1,
                                        depth=depth)
 
-    def DFSOnTheSpecificTiles(self, vertex, matrix, set_of_tiles, tiles, depth=DEFAULT_LENGTH_FOR_DFS):
+    def DFSOnTheSpecificTiles(self, vertex, matrix, set_of_tiles, tiles, depth=Config.DEFAULT_LENGTH_FOR_DFS):
         """DFs which goes across the following tiles"""
 
         self.Clear()
@@ -139,7 +141,8 @@ class PrimaAlgo(AlgoForGenerator):
                 continue
             if neighbour == self.parents.get(vertex):
                 continue
-            if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) not in [CHAR_FOR_EMPTY, CHAR_FOR_BOARD]:
+            if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) not in [Config.CHAR_FOR_EMPTY,
+                                                                                     Config.CHAR_FOR_BOARD]:
                 sign = True
                 continue
             if self.closed.get(neighbour):
@@ -176,7 +179,7 @@ class PrimaAlgo(AlgoForGenerator):
             for neighbour in src.back.MapGenerator.MapGenerator.GetNeighbours(current, matrix):
                 if neighbour not in self.closed and src.back.MapGenerator.MapGenerator.GetTile(neighbour,
                                                                                                matrix) not in [
-                    CHAR_FOR_BOARD]:
+                    Config.CHAR_FOR_BOARD]:
                     self.opened[neighbour] = neighbour
                     self.parents[neighbour] = current
 
@@ -203,19 +206,20 @@ class BFSAlgo:
         while len(self.deque) != 0:
             current = self.deque.pop()
             self.closed[current] = True
-            if src.back.MapGenerator.MapGenerator.GetTile(current, matrix) in [CHAR_FOR_EXIT]:
+            if src.back.MapGenerator.MapGenerator.GetTile(current, matrix) in [Config.CHAR_FOR_EXIT]:
                 break
 
             for neighbour in src.back.MapGenerator.MapGenerator.GetNeighbours(current, matrix):
-                if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) in [CHAR_FOR_PATH, CHAR_FOR_EXIT]:
+                if src.back.MapGenerator.MapGenerator.GetTile(neighbour, matrix) in [Config.CHAR_FOR_PATH,
+                                                                                     Config.CHAR_FOR_EXIT]:
                     if neighbour not in self.closed:
                         self.parents[neighbour] = current
                         self.deque.appendleft(neighbour)
 
         while current != self.parents[current]:
-            self.path.append([current, CHAR_FOR_ANSWER])
+            self.path.append([current, Config.CHAR_FOR_ANSWER])
             current = self.parents[current]
-        self.path.append([current, CHAR_FOR_ANSWER])
+        self.path.append([current, Config.CHAR_FOR_ANSWER])
 
     def BFSOnTheSpecificTiles(self, vertex, matrix, list_with_visited, list_with_tiles, depth):
         self.deque.appendleft(vertex)

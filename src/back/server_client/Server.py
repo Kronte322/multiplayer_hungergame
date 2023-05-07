@@ -1,11 +1,15 @@
 import _thread
-import uuid
-from src.back.server_client.Connections import *
-from src.back.DBconnection.DBclient import *
-from src.back.server_client.ActionHandler import ActionHandler
-from src.back.Map import Map
+import socket
 import sys
 import time
+import uuid
+from abc import ABC, abstractmethod
+
+import src.back.DBconnection.DBclient as DBclient
+import src.back.server_client.Connections as Connections
+import src.back.server_client.ServerConfig as ServerConfig
+from src.back.Map import Map
+from src.back.server_client.ActionHandler import ActionHandler
 
 
 def GenerateUniqueId():
@@ -74,7 +78,7 @@ class GameServer(Server):
     def StartServer(self):
         try:
             self.soc.bind((self.address[0], self.address[1]))
-            self.db_client = DBConnection()
+            self.db_client = DBclient.DBConnection()
         except socket.error as error:
             print(str(error))
             return
@@ -84,19 +88,19 @@ class GameServer(Server):
         _thread.start_new_thread(self.QuitInput, ())
         _thread.start_new_thread(self.ProcessGameObjects, ())
 
-        print(START_GAME_SERVER_MESSAGE)
+        print(ServerConfig.START_GAME_SERVER_MESSAGE)
 
         while True:
             conn, addr = self.soc.accept()
-            connection = GameServerConnection(conn, self)
+            connection = Connections.GameServerConnection(conn, self)
             _thread.start_new_thread(connection.ProcessThread, ())
             self.num_of_connected_players += 1
             self.db_client.SetActivePlayersOnServer(self.address[0], self.address[1], self.num_of_connected_players)
-            print(CONNECTED_MESSAGE, addr)
+            print(ServerConfig.CONNECTED_MESSAGE, addr)
 
     def ProcessGameObjects(self):
         while True:
-            time.sleep(1 / TICK_RATE)
+            time.sleep(1 / ServerConfig.TICK_RATE)
             self.action_handler.ProcessGameObjects()
 
     def QuitServer(self):
@@ -108,5 +112,5 @@ class GameServer(Server):
 
     def QuitInput(self):
         exit_string = input()
-        if exit_string == QUIT_SERVER_STRING:
+        if exit_string == ServerConfig.QUIT_SERVER_STRING:
             self.QuitServer()

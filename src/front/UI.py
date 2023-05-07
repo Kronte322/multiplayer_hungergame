@@ -2,17 +2,18 @@
 
 import pygame
 import pygame_gui
-from src.back.Config import *
+
+import src.back.Config as Config
 
 
 class Ui:
     def __init__(self):
         """initialize in-game user interface"""
 
-        self.manager = pygame_gui.UIManager(SIZE_OF_DISPLAY)
+        self.manager = pygame_gui.UIManager(Config.SIZE_OF_DISPLAY)
         self.restart_button = pygame_gui.elements.UIButton(
-            relative_rect=pygame.Rect(PLACE_OF_RESTART_BUTTON, SIZE_OF_RESTART_BUTTON),
-            text=RETRY_CONDITION_STRING,
+            relative_rect=pygame.Rect(Config.PLACE_OF_RESTART_BUTTON, Config.SIZE_OF_RESTART_BUTTON),
+            text=Config.RETRY_CONDITION_STRING,
             manager=self.manager)
 
     def ProcessEvents(self, event, controller):
@@ -29,6 +30,3 @@ class Ui:
 
         self.manager.update(time_delta)
         self.manager.draw_ui(screen)
-
-
-

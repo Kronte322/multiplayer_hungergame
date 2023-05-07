@@ -1,15 +1,15 @@
 """File contains map generator"""
 
 import random
-import src.back.Config
-from src.back.Algorithms import *
+
+import src.back.Config as Config
 
 
 class MapGenerator:
     """this class make able to generate maze and make able to operate with it"""
 
     @staticmethod
-    def GenerateMaze(size, algorithm: AlgoForGenerator, seed):
+    def GenerateMaze(size, algorithm, seed):
         """generate maze as matrix with following size"""
         random.seed(seed)
         maze = []
@@ -21,10 +21,10 @@ class MapGenerator:
 
     @staticmethod
     def SetRandomFloorsOnMap(matrix):
-        for i in range(NUM_OF_RANDOM_TILES):
+        for i in range(Config.NUM_OF_RANDOM_TILES):
             x_coord = random.randint(1, len(matrix) - 2)
             y_coord = random.randint(1, len(matrix[0]) - 2)
-            matrix[x_coord][y_coord] = CHAR_FOR_PATH
+            matrix[x_coord][y_coord] = Config.CHAR_FOR_PATH
 
     @staticmethod
     def GetClearMap(size):
@@ -175,7 +175,7 @@ class MapGenerator:
         for i in range(size[0]):
             intermediate = []
             for j in range(size[1]):
-                intermediate.append(CHAR_FOR_EMPTY)
+                intermediate.append(Config.CHAR_FOR_EMPTY)
             matrix.append(intermediate)
 
     @staticmethod
@@ -183,22 +183,22 @@ class MapGenerator:
         """set boards on matrix like picture frame, for avoiding some troubles with boarders"""
 
         for i in range(len(matrix)):
-            matrix[i][0] = CHAR_FOR_BOARD
+            matrix[i][0] = Config.CHAR_FOR_BOARD
         for i in range(len(matrix[0])):
-            matrix[len(matrix) - 1][i] = CHAR_FOR_BOARD
+            matrix[len(matrix) - 1][i] = Config.CHAR_FOR_BOARD
         for i in range(len(matrix)):
-            matrix[i][len(matrix[0]) - 1] = CHAR_FOR_BOARD
+            matrix[i][len(matrix[0]) - 1] = Config.CHAR_FOR_BOARD
         for i in range(len(matrix[0])):
-            matrix[0][i] = CHAR_FOR_BOARD
+            matrix[0][i] = Config.CHAR_FOR_BOARD
 
     @staticmethod
     def SetPathsOnMap(matrix, algorithm):
         """set paths on map using specific algorithm"""
 
-        first_coord = random.randrange(1, src.back.Config.SIZE_OF_MAP[0] - 1)
-        second_coord = random.randrange(1, src.back.Config.SIZE_OF_MAP[1] - 1)
+        first_coord = random.randrange(1, Config.SIZE_OF_MAP[0] - 1)
+        second_coord = random.randrange(1, Config.SIZE_OF_MAP[1] - 1)
         for tile in algorithm.GetPathsForMap((first_coord, second_coord), matrix):
-            matrix[tile[0]][tile[1]] = CHAR_FOR_PATH
+            matrix[tile[0]][tile[1]] = Config.CHAR_FOR_PATH
 
     @staticmethod
     def ClearMatrix(matrix):
@@ -206,4 +206,4 @@ class MapGenerator:
 
         for i in range(len(matrix)):
             for j in range(len(matrix[0])):
-                matrix[i][j] = CHAR_FOR_EMPTY
+                matrix[i][j] = Config.CHAR_FOR_EMPTY

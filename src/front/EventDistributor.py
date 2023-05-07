@@ -1,11 +1,12 @@
 """File contains class that process all events"""
 import time
+from abc import ABC
 
 import pygame
-import src.front.Menus
+
 import src.back.Config
-from src.back.Config import *
-from abc import ABC
+import src.back.Config as Config
+import src.front.Menus
 from src.back.Processes import ServerSelectionProcess
 
 
@@ -78,8 +79,8 @@ class MouseEventDistributor(EventDistributor):
                            src.back.Config.SPAWN_POSITION[1] + src.back.Config.KNIGHT_SIZE // 2)
         if position[0] - player_position[0] == 0:
             if position[1] - player_position[1] > 0:
-                return UP
-            return DOWN
+                return Config.UP
+            return Config.DOWN
         tan = (position[1] - player_position[1]) / (position[0] - player_position[0])
 
         if position[0] - player_position[0] >= 0:

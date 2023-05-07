@@ -1,12 +1,18 @@
 """File contains initialization of the game"""
-from src.front.Window import Window
-from src.front.UI import Ui
-from src.back.Processes import *
-from src.front.Render import Render
-from src.back.server_client.Client import PlayerClient
-from src.back.Map import Map
+import time
+
+import pygame
+
+import src.back.Config
+import src.back.Processes as Processes
+import src.back.server_client.ServerConfig as ServerConfig
+import src.front.EventDistributor as EventDistributor
 from src.back.Controller import Controller
-from src.front.EventDistributor import *
+from src.back.Map import Map
+from src.back.server_client.Client import PlayerClient
+from src.front.Render import Render
+from src.front.UI import Ui
+from src.front.Window import Window
 
 
 class Game:
@@ -17,7 +23,7 @@ class Game:
         """this method starts the game"""
 
         window = Window()
-        OnStartProcess(window.GetDisplay())
+        Processes.OnStartProcess(window.GetDisplay())
 
     @staticmethod
     def StartGameSession(display, user, character, server_address):
@@ -27,24 +33,24 @@ class Game:
         try:
             client = PlayerClient(server_address, user, character)
         except:
-            ServerSelectionProcess(display, user)
+            EventDistributor.ServerSelectionProcess(display, user)
 
         while True:
-            time.sleep(1 / TICK_RATE)
+            time.sleep(1 / ServerConfig.TICK_RATE)
             if client.GetSeedOfGeneration() is not None:
                 mappa = Map(client.GetSeedOfGeneration())
                 mappa.SetCurrentRooms()
                 break
         render = Render(display, mappa, client)
         controller = Controller(client.GetConnection().GetMessenger(), user, display)
-        keyboard_distributor = PlayerKeyboardEventDistributor(controller)
-        mouse_distributor = MouseEventDistributor(controller)
+        keyboard_distributor = EventDistributor.PlayerKeyboardEventDistributor(controller)
+        mouse_distributor = EventDistributor.MouseEventDistributor(controller)
         ui = Ui()
-        window_distributor = WindowEventDistributor(controller, ui)
+        window_distributor = EventDistributor.WindowEventDistributor(controller, ui)
         clock = pygame.time.Clock()
 
         while src.back.Config.RUNNING:
-            time_delta = clock.tick(FRAMES_PER_SEC)
+            time_delta = clock.tick(src.back.Config.FRAMES_PER_SEC)
             is_dead = client.GetPlayers()[client.GetUser().GetUserId()].IsDead()
             window_distributor.ProcessEvents(is_dead)
             keyboard_distributor.ProcessEvents()

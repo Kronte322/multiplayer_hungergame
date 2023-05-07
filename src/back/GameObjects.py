@@ -1,6 +1,7 @@
-from src.back.Config import *
-from abc import ABC, abstractmethod
 import uuid
+from abc import ABC, abstractmethod
+
+import src.back.Config as Config
 
 
 class Object(ABC):
@@ -29,27 +30,28 @@ class Death(Object):
 
     def Update(self):
         self.passed_frames += 1
-        if self.passed_frames % FREAQ_OF_DEATH_ANIMATION == 0:
+        if self.passed_frames % Config.FREAQ_OF_DEATH_ANIMATION == 0:
             self.passed_frames = 1
             self.num_of_sprite += 1
 
     def GetSpriteId(self):
-        return SPRITE_ID_FOR_DEATH + str(self.num_of_sprite)
+        return Config.SPRITE_ID_FOR_DEATH + str(self.num_of_sprite)
 
     def ShouldBeDeleted(self):
-        return self.num_of_sprite >= NUM_OF_SPRITES_FOR_DEATH_ANIMATION - 1
+        return self.num_of_sprite >= Config.NUM_OF_SPRITES_FOR_DEATH_ANIMATION - 1
 
     def GetPositionOfCenter(self):
-        return self.position[0] + DEFAULT_SIZE_OF_CHARACTER // 2, self.position[1] + DEFAULT_SIZE_OF_CHARACTER // 2
+        return self.position[0] + Config.DEFAULT_SIZE_OF_CHARACTER // 2, self.position[
+            1] + Config.DEFAULT_SIZE_OF_CHARACTER // 2
 
     def GetPosition(self):
         return self.position
 
 
-positions_of_DefaultSwordAttack_according_to_side = {LEFT: (-DEFAULT_SIZE_OF_ATTACK // 2, 0),
-                                                     RIGHT: (DEFAULT_SIZE_OF_ATTACK // 2, 0),
-                                                     UP: (0, -DEFAULT_SIZE_OF_ATTACK // 2),
-                                                     DOWN: (0, DEFAULT_SIZE_OF_ATTACK // 2)}
+positions_of_DefaultSwordAttack_according_to_side = {Config.LEFT: (-Config.DEFAULT_SIZE_OF_ATTACK // 2, 0),
+                                                     Config.RIGHT: (Config.DEFAULT_SIZE_OF_ATTACK // 2, 0),
+                                                     Config.UP: (0, -Config.DEFAULT_SIZE_OF_ATTACK // 2),
+                                                     Config.DOWN: (0, Config.DEFAULT_SIZE_OF_ATTACK // 2)}
 
 
 class AttackObject(Object, ABC):
@@ -80,9 +82,9 @@ class DefaultSwordAttack(AttackObject):
         self.position = (player.GetPosition()[0] + positions_of_DefaultSwordAttack_according_to_side[side][0],
                          player.GetPosition()[1] + positions_of_DefaultSwordAttack_according_to_side[side][1])
         self.side = side
-        if self.side in [LEFT, RIGHT]:
+        if self.side in [Config.LEFT, Config.RIGHT]:
             self.player.SetSide(self.side)
-        self.num_of_sprites = NUM_OF_SPRITES_FOR_ATTACK
+        self.num_of_sprites = Config.NUM_OF_SPRITES_FOR_ATTACK
         self.num_of_sprite = 0
         self.num_of_passed_frames = 1
         self.freq = player.GetAttackSpeed()
@@ -106,7 +108,7 @@ class DefaultSwordAttack(AttackObject):
         return self.num_of_sprite >= self.num_of_sprites - 1
 
     def Delete(self):
-        self.player.SetCooldownForAttack(COOLDOWN_FOR_ATTACK)
+        self.player.SetCooldownForAttack(Config.COOLDOWN_FOR_ATTACK)
         self.player.UnMuteAttack()
         self.player.UnMuteMove()
 
@@ -115,17 +117,19 @@ class DefaultSwordAttack(AttackObject):
 
     def GetHitPoints(self):
         if self.num_of_sprite == 3 and self.num_of_passed_frames == 1:
-            return [(self.position[0] + DEFAULT_SIZE_OF_ATTACK // 2, self.position[1] + DEFAULT_SIZE_OF_ATTACK // 2)]
+            return [(self.position[0] + Config.DEFAULT_SIZE_OF_ATTACK // 2,
+                     self.position[1] + Config.DEFAULT_SIZE_OF_ATTACK // 2)]
         return []
 
     def GetRadiusOfHit(self):
         return self.hit_radius
 
     def GetPositionOfCenter(self):
-        return self.position[0] + DEFAULT_SIZE_OF_ATTACK // 2, self.position[1] + DEFAULT_SIZE_OF_ATTACK // 2
+        return self.position[0] + Config.DEFAULT_SIZE_OF_ATTACK // 2, self.position[
+            1] + Config.DEFAULT_SIZE_OF_ATTACK // 2
 
     def GetId(self):
         return self.id
 
     def GetSpriteId(self):
-        return SPRITE_ID_FOR_ATTACK + self.side + str(self.num_of_sprite)
+        return Config.SPRITE_ID_FOR_ATTACK + self.side + str(self.num_of_sprite)

@@ -1,6 +1,8 @@
-from src.back.server_client.Connections import *
 import _thread
+import socket
 from abc import ABC, abstractmethod
+
+import src.back.server_client.Connections as Connections
 
 
 class Client(ABC):
@@ -42,7 +44,7 @@ class PlayerClient(Client):
             print(e)
             raise e
 
-        self.connection = PlayerConnection(self.soc, self)
+        self.connection = Connections.PlayerConnection(self.soc, self)
         self.connection.ProcessThread()
 
     def GetConnection(self):

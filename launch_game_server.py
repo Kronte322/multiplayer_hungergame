@@ -1,9 +1,10 @@
 """File contains launch of game server"""
 
 import socket
+
+import src.back.Config as Config
+import src.back.DBconnection.DBclient as DBclient
 from src.back.server_client.Server import GameServer
-from src.back.Config import *
-from src.back.DBconnection.DBclient import *
 
 
 def GetIpAddress():
@@ -12,8 +13,8 @@ def GetIpAddress():
     return ip_address
 
 
-db_con = DBConnection()
+db_con = DBclient.DBConnection()
 address_of_the_server = db_con.GetOfflineServersWithIp(GetIpAddress())[0]
 
-server = GameServer(address_of_the_server, SIZE_OF_MAP)
+server = GameServer(address_of_the_server, Config.SIZE_OF_MAP)
 server.StartServer()

@@ -1,7 +1,9 @@
 """File contains menu"""
-import pygame_menu
-from src.back.Config import *
 from abc import ABC
+
+import pygame_menu
+
+import src.back.Config as Config
 
 
 class Menu(ABC):
@@ -33,11 +35,11 @@ class StartMenu(Menu):
 
     def __init__(self, display, start_process):
         super().__init__(display)
-        self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
+        self.menu = pygame_menu.Menu(Config.WELCOME_CONDITION_STRING, Config.SIZE_OF_MENUS[0], Config.SIZE_OF_MENUS[1],
                                      theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.button(LOG_IN_STRING, start_process.MoveToLogInProcess)
-        self.menu.add.button(REGISTRATION_STRING, start_process.MoveToRegisterProcess)
-        self.menu.add.button(QUIT_CONDITION_STRING, pygame_menu.events.EXIT)
+        self.menu.add.button(Config.LOG_IN_STRING, start_process.MoveToLogInProcess)
+        self.menu.add.button(Config.REGISTRATION_STRING, start_process.MoveToRegisterProcess)
+        self.menu.add.button(Config.QUIT_CONDITION_STRING, pygame_menu.events.EXIT)
 
 
 class LogInMenu(Menu):
@@ -45,19 +47,19 @@ class LogInMenu(Menu):
 
     def __init__(self, display, log_in_process):
         super().__init__(display)
-        self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
+        self.menu = pygame_menu.Menu(Config.WELCOME_CONDITION_STRING, Config.SIZE_OF_MENUS[0], Config.SIZE_OF_MENUS[1],
                                      theme=pygame_menu.themes.THEME_BLUE)
 
-        self.menu.add.text_input(USER_NM_INPUT, onchange=log_in_process.SetUserName)
-        self.menu.add.text_input(PASSWORD_INPUT, onchange=log_in_process.SetUserPassword, password=True)
-        self.menu.add.button(LOG_IN_STRING, log_in_process.LogIn)
-        self.menu.add.button(BACK_CONDITION_STRING, log_in_process.MoveToOnStartProcess)
+        self.menu.add.text_input(Config.USER_NM_INPUT, onchange=log_in_process.SetUserName)
+        self.menu.add.text_input(Config.PASSWORD_INPUT, onchange=log_in_process.SetUserPassword, password=True)
+        self.menu.add.button(Config.LOG_IN_STRING, log_in_process.LogIn)
+        self.menu.add.button(Config.BACK_CONDITION_STRING, log_in_process.MoveToOnStartProcess)
         self.label = None
 
     def AddAnIncorrectInputInscription(self):
         """this method adds message with incorrect input"""
 
-        self.label = self.menu.add.label(WRONG_LOG_IN)
+        self.label = self.menu.add.label(Config.WRONG_LOG_IN)
 
     def RemoveAnIncorrectInputInscription(self):
         """this method removes message with incorrect input"""
@@ -78,18 +80,18 @@ class RegisterUserMenu(Menu):
 
     def __init__(self, display, register_process):
         super().__init__(display)
-        self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
+        self.menu = pygame_menu.Menu(Config.WELCOME_CONDITION_STRING, Config.SIZE_OF_MENUS[0], Config.SIZE_OF_MENUS[1],
                                      theme=pygame_menu.themes.THEME_BLUE)
-        self.menu.add.text_input(USER_NM_INPUT, onchange=register_process.SetUserName)
-        self.menu.add.text_input(NICK_NAME_INPUT, onchange=register_process.SetUserNickName)
-        self.menu.add.text_input(PASSWORD_INPUT, onchange=register_process.SetUserPassword, password=True)
+        self.menu.add.text_input(Config.USER_NM_INPUT, onchange=register_process.SetUserName)
+        self.menu.add.text_input(Config.NICK_NAME_INPUT, onchange=register_process.SetUserNickName)
+        self.menu.add.text_input(Config.PASSWORD_INPUT, onchange=register_process.SetUserPassword, password=True)
 
-        self.menu.add.button(REGISTRATION_STRING, register_process.Register)
-        self.menu.add.button(BACK_CONDITION_STRING, register_process.MoveToOnStartProcess)
+        self.menu.add.button(Config.REGISTRATION_STRING, register_process.Register)
+        self.menu.add.button(Config.BACK_CONDITION_STRING, register_process.MoveToOnStartProcess)
         self.label = None
 
     def AddAnIncorrectInputInscription(self):
-        self.label = self.menu.add.label(WRONG_LOG_IN)
+        self.label = self.menu.add.label(Config.WRONG_LOG_IN)
 
     def RemoveAnIncorrectInputInscription(self):
         self.menu.remove_widget(self.label)
@@ -103,12 +105,12 @@ class LobbyMenu(Menu):
 
     def __init__(self, display, lobby_process):
         super().__init__(display)
-        self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
+        self.menu = pygame_menu.Menu(Config.WELCOME_CONDITION_STRING, Config.SIZE_OF_MENUS[0], Config.SIZE_OF_MENUS[1],
                                      theme=pygame_menu.themes.THEME_BLUE)
         self.menu.add.button(lobby_process.GetUser().GetNickName(), lobby_process.MoveToProfileProcess)
-        self.menu.add.button(PLAY_CONDITION_STRING, lobby_process.MoveToServerSelectionProcess)
-        self.menu.add.button(BACK_CONDITION_STRING, lobby_process.MoveToOnStartProcess)
-        self.menu.add.button(QUIT_CONDITION_STRING, pygame_menu.events.EXIT)
+        self.menu.add.button(Config.PLAY_CONDITION_STRING, lobby_process.MoveToServerSelectionProcess)
+        self.menu.add.button(Config.BACK_CONDITION_STRING, lobby_process.MoveToOnStartProcess)
+        self.menu.add.button(Config.QUIT_CONDITION_STRING, pygame_menu.events.EXIT)
 
 
 class ServerSelectionMenu(Menu):
@@ -116,7 +118,7 @@ class ServerSelectionMenu(Menu):
 
     def __init__(self, display, server_selection_process):
         super().__init__(display)
-        self.menu = pygame_menu.Menu(WELCOME_CONDITION_STRING, SIZE_OF_MENUS[0], SIZE_OF_MENUS[1],
+        self.menu = pygame_menu.Menu(Config.WELCOME_CONDITION_STRING, Config.SIZE_OF_MENUS[0], Config.SIZE_OF_MENUS[1],
                                      theme=pygame_menu.themes.THEME_BLUE)
 
         def SetServerAddress(key, value):
@@ -125,19 +127,20 @@ class ServerSelectionMenu(Menu):
         def SetCharacter(key, value):
             server_selection_process.SetCharacter(value)
 
-        selector = self.menu.add.selector(title=PICK_SERVER_STRING,
+        selector = self.menu.add.selector(title=Config.PICK_SERVER_STRING,
                                           items=[(str(server[3]) + ' / ' + str(server[2]), (server[0], server[1])) for
                                                  server in server_selection_process.GetActiveServers()] + [
                                                     ('', (0, 0))], onchange=SetServerAddress)
         SetServerAddress(selector.get_items()[0][0], selector.get_items()[0][1])
-        self.menu.add.selector(title=CHARACTER_SELECTION_STRING, items=SET_WITH_CHARACTERS, onchange=SetCharacter)
-        self.menu.add.button(CONNECT_BUTTON_STRING, server_selection_process.LaunchGameSession)
-        self.menu.add.button(BACK_CONDITION_STRING, server_selection_process.MoveToLobbyProcess)
-        self.menu.add.button(QUIT_CONDITION_STRING, pygame_menu.events.EXIT)
+        self.menu.add.selector(title=Config.CHARACTER_SELECTION_STRING, items=Config.SET_WITH_CHARACTERS,
+                               onchange=SetCharacter)
+        self.menu.add.button(Config.CONNECT_BUTTON_STRING, server_selection_process.LaunchGameSession)
+        self.menu.add.button(Config.BACK_CONDITION_STRING, server_selection_process.MoveToLobbyProcess)
+        self.menu.add.button(Config.QUIT_CONDITION_STRING, pygame_menu.events.EXIT)
         self.label = None
 
     def AddAnIncorrectInputInscription(self):
-        self.label = self.menu.add.label(WRONG_SERVER_SELECTION)
+        self.label = self.menu.add.label(Config.WRONG_SERVER_SELECTION)
 
     def RemoveAnIncorrectInputInscription(self):
         self.menu.remove_widget(self.label)
