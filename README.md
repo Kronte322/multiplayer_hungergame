@@ -4,7 +4,7 @@
   ## first choose folder and clone repo and set branch:
      git clone git@github.com:Kronte322/mulitplayer_hungergame.git
      cd multiplayer_hungergame
-     git checkout dev
+     git checkout main
   ## second install all packages that requires project on your folder with project:
      pip install pygame
      pip install pygame_gui
